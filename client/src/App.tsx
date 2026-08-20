@@ -3,18 +3,24 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
+import DashboardLayout from "./components/DashboardLayout";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
+import { HomeDashboard, LabsPage, LibraryPage, MentorPage, NotesPage, PlaybooksPage, ResourcesPage, RoadmapPage } from "./pages/AcademyPages";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
-    <Switch>
-      <Route path={"/"} component={Home} />
+    <DashboardLayout><Switch>
+      <Route path={"/"} component={HomeDashboard} />
+      <Route path={"/roadmap"} component={RoadmapPage} />
+      <Route path={"/labs"} component={LabsPage} />
+      <Route path={"/library"} component={LibraryPage} />
+      <Route path={"/playbooks"} component={PlaybooksPage} />
+      <Route path={"/notes"} component={NotesPage} />
+      <Route path={"/mentor"} component={MentorPage} />
+      <Route path={"/resources"} component={ResourcesPage} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
-    </Switch>
+    </Switch></DashboardLayout>
   );
 }
 
@@ -27,7 +33,7 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider
-        defaultTheme="light"
+        defaultTheme="dark"
         // switchable
       >
         <TooltipProvider>

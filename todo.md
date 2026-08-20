@@ -1,0 +1,18 @@
+# Project TODO
+
+- [x] Definir el alcance personal, la navegación y el modelo de datos del centro de operaciones.
+- [x] Crear la hoja de ruta práctica con las seis áreas de dominio y sus objetivos de resultado.
+- [x] Incorporar módulos ejecutables con instrucciones, checklists y accesos a notebooks de Google Colab.
+- [x] Construir una biblioteca de scripts y plantillas clasificadas por resultado de negocio.
+- [x] Diseñar playbooks avanzados y éticos para automatización, IA aplicada, contenido y negocios.
+- [x] Implementar notas personales en Markdown vinculadas a lecciones, recursos y experimentos.
+- [x] Implementar el seguimiento personal de progreso, racha, hitos y próximos pasos.
+- [x] Crear el panel de recursos curados con notas personales adjuntas.
+- [x] Implementar una mentoría IA privada con memoria de conversación y contexto personal.
+- [x] Restringir las funciones personales a la sesión del propietario y eliminar flujos multiusuario visibles.
+- [x] Crear pruebas unitarias para la lógica de datos y los flujos de interacción críticos.
+- [x] Verificar la experiencia visual en escritorio y móvil, corregir errores y guardar un checkpoint de entrega.
+- [x] Capturar pantallas verificadas de las áreas principales para la entrega final.
+- [x] Preparar una guía de código reutilizable con placeholders explícitos para enlaces, datos y personalización.
+- [x] Cubrir en cada ruta una secuencia de aprendizaje completa: base operativa, aplicación, escalamiento y playbooks avanzados.
+- [x] Transformar el contenido en una guía visual interactiva con competencias, misiones, laboratorios y evidencia de dominio en ingeniería de datos.
