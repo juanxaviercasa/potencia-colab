@@ -25,7 +25,10 @@ import { useIsMobile } from "@/hooks/useMobile";
 import {
   BookOpen,
   BotMessageSquare,
+  Database,
+  FolderKanban,
   FlaskConical,
+  HardDriveUpload,
   Library,
   LogOut,
   Map,
@@ -47,6 +50,9 @@ const menuItems = [
   { icon: NotebookPen, label: "Bóveda de notas", path: "/notes" },
   { icon: BotMessageSquare, label: "Mentor IA", path: "/mentor" },
   { icon: BookOpen, label: "Recursos", path: "/resources" },
+  { icon: HardDriveUpload, label: "Importaciones", path: "/imports" },
+  { icon: FolderKanban, label: "Portafolio", path: "/portfolio" },
+  { icon: Database, label: "Catálogo de datos", path: "/catalog" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "colab-atelier-sidebar-width";

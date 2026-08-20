@@ -1,10 +1,12 @@
 import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
+  importedFiles,
   InsertUser,
   lessonProgress,
   mentorMessages,
   personalNotes,
+  portfolioProjects,
   users,
 } from "../drizzle/schema";
 import { ENV } from "./_core/env";
@@ -131,4 +133,72 @@ export async function addMentorMessage(
   const db = await getDb();
   if (!db) throw new Error("La base de datos no está disponible");
   await db.insert(mentorMessages).values({ userId, role, content });
+}
+
+type ImportedFileInput = {
+  name: string;
+  fileType: "csv" | "json" | "parquet";
+  mimeType: string;
+  byteSize: number;
+  storageKey: string;
+  storageUrl: string;
+};
+
+export async function recordImportedFile(userId: number, input: ImportedFileInput) {
+  const db = await getDb();
+  if (!db) throw new Error("La base de datos no está disponible");
+  const result = await db.insert(importedFiles).values({ userId, ...input });
+  return Number(result[0].insertId);
+}
+
+export async function listImportedFiles(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(importedFiles).where(eq(importedFiles.userId, userId)).orderBy(desc(importedFiles.createdAt));
+}
+
+type PortfolioProjectInput = {
+  id?: number;
+  sourceFileId: number | null;
+  title: string;
+  category: "analytics" | "quality" | "pipeline" | "ai_product";
+  status: "idea" | "building" | "review" | "complete";
+  brief: string;
+  deliverable: string;
+  evidence: string;
+  checklist: string;
+  progress: number;
+};
+
+export async function listPortfolioProjects(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(portfolioProjects).where(eq(portfolioProjects.userId, userId)).orderBy(desc(portfolioProjects.updatedAt));
+}
+
+export async function savePortfolioProject(userId: number, input: PortfolioProjectInput) {
+  const db = await getDb();
+  if (!db) throw new Error("La base de datos no está disponible");
+  if (input.id) {
+    await db.update(portfolioProjects).set({
+      sourceFileId: input.sourceFileId,
+      title: input.title,
+      category: input.category,
+      status: input.status,
+      brief: input.brief,
+      deliverable: input.deliverable,
+      evidence: input.evidence,
+      checklist: input.checklist,
+      progress: input.progress,
+    }).where(and(eq(portfolioProjects.id, input.id), eq(portfolioProjects.userId, userId)));
+    return input.id;
+  }
+  const result = await db.insert(portfolioProjects).values({ userId, ...input });
+  return Number(result[0].insertId);
+}
+
+export async function deletePortfolioProject(userId: number, id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("La base de datos no está disponible");
+  await db.delete(portfolioProjects).where(and(eq(portfolioProjects.id, id), eq(portfolioProjects.userId, userId)));
 }

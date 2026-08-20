@@ -15,6 +15,34 @@
       "when": 1787189780824,
       "tag": "0001_far_mandroid",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787203214346,
+      "tag": "0002_bizarre_gamora",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787203619935,
+      "tag": "0003_wet_silvermane",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1787203648196,
+      "tag": "0004_hot_spectrum",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1787203705408,
+      "tag": "0005_safe_golden_guardian",
+      "breakpoints": true
     }
   ]
 }

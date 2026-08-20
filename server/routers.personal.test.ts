@@ -6,7 +6,11 @@ const mocks = vi.hoisted(() => ({
   listNotes: vi.fn(),
   saveNote: vi.fn(),
   deleteNote: vi.fn(),
+  listImportedFiles: vi.fn(),
   listMentorMessages: vi.fn(),
+  listPortfolioProjects: vi.fn(),
+  savePortfolioProject: vi.fn(),
+  deletePortfolioProject: vi.fn(),
   addMentorMessage: vi.fn(),
   invokeLLM: vi.fn(),
 }));
@@ -17,7 +21,11 @@ vi.mock("./db", () => ({
   listNotes: mocks.listNotes,
   saveNote: mocks.saveNote,
   deleteNote: mocks.deleteNote,
+  listImportedFiles: mocks.listImportedFiles,
   listMentorMessages: mocks.listMentorMessages,
+  listPortfolioProjects: mocks.listPortfolioProjects,
+  savePortfolioProject: mocks.savePortfolioProject,
+  deletePortfolioProject: mocks.deletePortfolioProject,
   addMentorMessage: mocks.addMentorMessage,
 }));
 
@@ -50,7 +58,11 @@ describe("rutas personales", () => {
     vi.clearAllMocks();
     mocks.getLessonProgress.mockResolvedValue([]);
     mocks.listNotes.mockResolvedValue([]);
+    mocks.listImportedFiles.mockResolvedValue([]);
     mocks.listMentorMessages.mockResolvedValue([]);
+    mocks.listPortfolioProjects.mockResolvedValue([]);
+    mocks.savePortfolioProject.mockResolvedValue(91);
+    mocks.deletePortfolioProject.mockResolvedValue(undefined);
     mocks.setLessonCompletion.mockResolvedValue(undefined);
     mocks.saveNote.mockResolvedValue(77);
     mocks.deleteNote.mockResolvedValue(undefined);
@@ -101,5 +113,44 @@ describe("rutas personales", () => {
     await expect(caller.mentor.ask({ content: " " })).rejects.toMatchObject({ code: "BAD_REQUEST" });
     expect(mocks.saveNote).not.toHaveBeenCalled();
     expect(mocks.invokeLLM).not.toHaveBeenCalled();
+  });
+
+  it("registra un proyecto de portafolio y devuelve el inventario privado de datasets", async () => {
+    mocks.listImportedFiles.mockResolvedValue([{ id: 33, name: "muestra.csv", fileType: "csv" }]);
+    const caller = appRouter.createCaller(contextFor());
+
+    const files = await caller.imports.list();
+    const projectId = await caller.projects.save({
+      sourceFileId: 33,
+      title: "Auditoría de muestra",
+      category: "quality",
+      status: "building",
+      brief: "Auditar la calidad de un dataset autorizado para encontrar fallos que alteren una decisión.",
+      deliverable: "Notebook reproducible y reporte de calidad.",
+      evidence: "Captura de reglas, salida del notebook y decisión propuesta.",
+      checklist: "[true, false, false, false]",
+      progress: 40,
+    });
+
+    expect(files).toEqual([{ id: 33, name: "muestra.csv", fileType: "csv" }]);
+    expect(projectId).toBe(91);
+    expect(mocks.savePortfolioProject).toHaveBeenCalledWith(9, expect.objectContaining({ sourceFileId: 33, progress: 40 }));
+  });
+
+  it("valida el avance de un proyecto antes de persistirlo", async () => {
+    const caller = appRouter.createCaller(contextFor());
+
+    await expect(caller.projects.save({
+      sourceFileId: null,
+      title: "x",
+      category: "quality",
+      status: "idea",
+      brief: "corto",
+      deliverable: "corto",
+      evidence: "corto",
+      checklist: "[]",
+      progress: 101,
+    })).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    expect(mocks.savePortfolioProject).not.toHaveBeenCalled();
   });
 });

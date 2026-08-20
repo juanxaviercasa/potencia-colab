@@ -10,9 +10,13 @@ import {
   addMentorMessage,
   deleteNote,
   getLessonProgress,
+  listImportedFiles,
   listMentorMessages,
   listNotes,
+  listPortfolioProjects,
+  deletePortfolioProject,
   saveNote,
+  savePortfolioProject,
   setLessonCompletion,
 } from "./db";
 import { calculateLearningMetrics } from "./progress";
@@ -92,6 +96,32 @@ export const appRouter = router({
       .input(z.object({ id: z.number().int().positive() }))
       .mutation(async ({ ctx, input }) => {
         await deleteNote(ctx.user.id, input.id);
+        return { success: true };
+      }),
+  }),
+  imports: router({
+    list: personalProcedure.query(({ ctx }) => listImportedFiles(ctx.user.id)),
+  }),
+  projects: router({
+    list: personalProcedure.query(({ ctx }) => listPortfolioProjects(ctx.user.id)),
+    save: personalProcedure
+      .input(z.object({
+        id: z.number().int().positive().optional(),
+        sourceFileId: z.number().int().positive().nullable(),
+        title: z.string().trim().min(3).max(180),
+        category: z.enum(["analytics", "quality", "pipeline", "ai_product"]),
+        status: z.enum(["idea", "building", "review", "complete"]),
+        brief: z.string().trim().min(10).max(12000),
+        deliverable: z.string().trim().min(5).max(5000),
+        evidence: z.string().trim().min(5).max(12000),
+        checklist: z.string().trim().min(2).max(8000),
+        progress: z.number().int().min(0).max(100),
+      }))
+      .mutation(({ ctx, input }) => savePortfolioProject(ctx.user.id, input)),
+    delete: personalProcedure
+      .input(z.object({ id: z.number().int().positive() }))
+      .mutation(async ({ ctx, input }) => {
+        await deletePortfolioProject(ctx.user.id, input.id);
         return { success: true };
       }),
   }),

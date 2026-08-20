@@ -16,3 +16,13 @@
 - [x] Preparar una guía de código reutilizable con placeholders explícitos para enlaces, datos y personalización.
 - [x] Cubrir en cada ruta una secuencia de aprendizaje completa: base operativa, aplicación, escalamiento y playbooks avanzados.
 - [x] Transformar el contenido en una guía visual interactiva con competencias, misiones, laboratorios y evidencia de dominio en ingeniería de datos.
+- [x] Incorporar importación segura de CSV, JSON y Parquet con vista previa, validación y almacenamiento privado.
+- [x] Crear proyectos de portafolio con brief, checklist, evidencia, estado y rúbrica de evaluación.
+- [x] Integrar un catálogo interactivo de bases de datos y APIs autorizadas, con filtros, notas y plantillas de conexión.
+- [x] Ampliar las pruebas para cubrir importación, proyectos y catálogo personal.
+- [x] Verificar las nuevas vistas en escritorio y móvil, guardar un checkpoint y sincronizar el resultado con GitHub.
+- [x] Añadir un checklist persistente y editable en cada proyecto de portafolio.
+- [x] Cubrir con pruebas el endpoint de importación y el catálogo de fuentes.
+- [x] Añadir un checklist persistente y editable en cada proyecto de portafolio.
+- [x] Cubrir con pruebas el endpoint de importación y el catálogo de fuentes.
+- [x] Agregar pruebas de integración del handler HTTP de importación para propietario, validaciones, guardado y fallos de almacenamiento.

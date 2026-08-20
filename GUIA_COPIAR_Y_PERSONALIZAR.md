@@ -170,7 +170,48 @@ Un piloto responsable define lo que se entregará y cómo se evaluará; no prome
 | Navegación y acceso personal | `client/src/components/DashboardLayout.tsx` | Nombre, etiquetas y navegación lateral. |
 | Mentoría y privacidad | `server/routers.ts` | Prompt del mentor, límites de contexto y reglas de uso. |
 | Notas, progreso y memoria | `server/db.ts` y `drizzle/schema.ts` | Estructura de datos y consultas personales. |
+| Importación de datasets | `client/src/pages/DataOperationsPages.tsx` y `server/importRoutes.ts` | Límite de 10 MB, tipos permitidos, previsualización y persistencia privada. |
+| Proyectos de portafolio | `client/src/pages/DataOperationsPages.tsx` | Plantillas, rúbrica, progreso y evidencia técnica. |
+| Catálogo de fuentes | `client/src/lib/dataCatalog.ts` y `client/src/pages/CatalogPage.tsx` | Fuentes autorizadas, guardrails, enlaces oficiales y snippets. |
+
+## 8. Importar un dataset de forma responsable
+
+La sección **Importaciones** acepta CSV, JSON y Parquet de hasta **10 MB**. Para CSV y JSON muestra una vista previa local antes de transferir el archivo; Parquet se conserva para explorarlo en DuckDB o Colab. El nombre, tipo, tamaño y referencia de almacenamiento quedan en tu registro privado.
+
+Antes de importar, confirma que puedes usar los datos y que no incluyen secretos, información financiera, información confidencial o datos personales que no sean necesarios para el laboratorio.
+
+## 9. Convertir un laboratorio en proyecto de portafolio
+
+En **Portafolio**, cada proyecto debe cubrir los cuatro componentes de la rúbrica:
+
+| Componente | Pregunta que debes responder |
+|---|---|
+| Problema definido | ¿Qué decisión o fricción investigas y para quién? |
+| Entregable reproducible | ¿Qué notebook, consulta, pipeline o reporte puede reejecutarse? |
+| Evidencia auditable | ¿Qué salida, captura, regla o definición respalda el resultado? |
+| Avance documentado | ¿Qué parte está construida y cuál es el siguiente bloqueo? |
+
+No adjuntes datos privados al portafolio público. Describe el método y sustituye el material sensible por muestras anonimizadas.
+
+## 10. Usar el catálogo de datos y APIs
+
+El catálogo enlaza documentación oficial y ofrece plantillas con placeholders. Por ejemplo, para una consulta de indicadores del Banco Mundial:
+
+```python
+import requests
+
+country = "{{CODIGO_PAIS}}"        # Ej.: MEX
+indicator = "{{CODIGO_INDICADOR}}" # Ej.: SP.POP.TOTL
+url = f"https://api.worldbank.org/v2/country/{country}/indicator/{indicator}?format=json&per_page=100"
+
+response = requests.get(url, timeout=20)
+response.raise_for_status()
+metadata, records = response.json()
+```
+
+La API de indicadores del Banco Mundial documenta acceso programático a sus series y no requiere claves para el endpoint indicado. [2] Para cada fuente, conserva la URL, la licencia o términos, el límite de tasa, la fecha de extracción y la decisión que quieres informar.
 
 ## Referencias
 
 [1] [Google Colab — Preguntas frecuentes](https://research.google.com/colaboratory/faq.html)
+[2] [World Bank — Indicators API Documentation](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation)

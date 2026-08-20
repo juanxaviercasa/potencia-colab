@@ -6,6 +6,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import DashboardLayout from "./components/DashboardLayout";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { HomeDashboard, LabsPage, LibraryPage, MentorPage, NotesPage, PlaybooksPage, ResourcesPage, RoadmapPage } from "./pages/AcademyPages";
+import { ImportsPage, PortfolioPage } from "./pages/DataOperationsPages";
+import { CatalogPage } from "./pages/CatalogPage";
 
 function Router() {
   return (
@@ -18,6 +20,9 @@ function Router() {
       <Route path={"/notes"} component={NotesPage} />
       <Route path={"/mentor"} component={MentorPage} />
       <Route path={"/resources"} component={ResourcesPage} />
+      <Route path={"/imports"} component={ImportsPage} />
+      <Route path={"/portfolio"} component={PortfolioPage} />
+      <Route path={"/catalog"} component={CatalogPage} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch></DashboardLayout>

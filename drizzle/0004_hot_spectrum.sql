@@ -1,0 +1,1 @@
+ALTER TABLE `portfolio_projects` MODIFY COLUMN `checklist` varchar(8000) NOT NULL DEFAULT '[]';
